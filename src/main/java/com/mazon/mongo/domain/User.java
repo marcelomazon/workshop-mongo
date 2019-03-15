@@ -1,11 +1,20 @@
 package com.mazon.mongo.domain;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 
+/** para indicar que a classe é referente a um objeto do mongo
+ * pode ser colocado o param collection com o nome da coleção que a classe se refere
+ * se não declarar, será considerado o nome da classe com a inicial minúscula
+ */
+@Document(collection = "user")
 public class User implements Serializable {
 
     private final Long serialVersionUID = 1L;
 
+    @Id
     private String id;
     private String name;
     private String email;
