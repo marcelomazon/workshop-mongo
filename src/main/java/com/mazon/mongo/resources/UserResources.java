@@ -24,7 +24,4 @@ public class UserResources {
 
         return ResponseEntity.ok().body(list);
     }
-
-
-
 }
