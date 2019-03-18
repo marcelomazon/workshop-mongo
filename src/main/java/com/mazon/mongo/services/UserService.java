@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -33,6 +34,17 @@ public class UserService {
     public void delete(String id){
         findById(id);
         repository.deleteById(id);
+    }
+
+    public User update(User user){
+        Optional<User> newUser = repository.findById(user.getId());
+        updateData(newUser,user);
+        return repository.save(newUser.get());
+    }
+
+    private void updateData(Optional<User> newUser, User user) {
+        newUser.get().setName(user.getName());
+        newUser.get().setEmail(user.getEmail());
     }
 
     public User fromDto(UserDto userDto) {
