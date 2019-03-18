@@ -5,11 +5,10 @@ import com.mazon.mongo.dto.UserDto;
 import com.mazon.mongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +32,16 @@ public class UserResources {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable(value = "id") String id){
         User user = service.findById(id);
-        ResponseEntity<UserDto> body = ResponseEntity.ok().body(new UserDto(user));
-        return body;
+        return ResponseEntity.ok().body(new UserDto(user));
     }
+
+    @PostMapping
+    public ResponseEntity<Void> insert(@RequestBody UserDto userDto){
+        User obj = service.fromDto(userDto);
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+        // created retorna o código 201 quando um novo recurso é gerado
+    }
+
 }

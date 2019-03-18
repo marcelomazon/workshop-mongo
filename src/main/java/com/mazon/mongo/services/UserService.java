@@ -1,6 +1,7 @@
 package com.mazon.mongo.services;
 
 import com.mazon.mongo.domain.User;
+import com.mazon.mongo.dto.UserDto;
 import com.mazon.mongo.services.exception.ObjectNotFoundException;
 import com.mazon.mongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,13 @@ public class UserService {
         return repository
                 .findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+    }
+
+    public User insert(User user) {
+        return repository.insert(user);
+    }
+
+    public User fromDto(UserDto userDto) {
+        return new User(userDto.getId(), userDto.getName(), userDto.getEmail());
     }
 }
