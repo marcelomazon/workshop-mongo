@@ -44,4 +44,10 @@ public class UserResources {
         // created retorna o código 201 quando um novo recurso é gerado
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") String id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
