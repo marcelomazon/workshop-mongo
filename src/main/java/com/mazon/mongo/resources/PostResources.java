@@ -7,10 +7,10 @@ import com.mazon.mongo.services.PostService;
 import com.mazon.mongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +29,21 @@ public class PostResources {
                 .map(x -> new UserDto(x))
                 .collect(Collectors.toList());*/
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Post> findById(@PathVariable(value = "id") String id){
+        Post post = service.findById(id);
+        return ResponseEntity.ok().body(post);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> insert(@RequestBody Post post){
+
+        Post obj = service.insert(post);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+        // created retorna o código 201 quando um novo recurso é gerado
     }
 
 }
