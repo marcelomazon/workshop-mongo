@@ -22,28 +22,38 @@ public class PostResources {
     private PostService service;
 
     @GetMapping
-    public ResponseEntity<List<Post>> findAll(){
+    public ResponseEntity<List<Post>> findAll() {
 
         List<Post> list = service.findAll();
-        /*List<UserDto> list = list.stream()
-                .map(x -> new UserDto(x))
-                .collect(Collectors.toList());*/
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> findById(@PathVariable(value = "id") String id){
+    public ResponseEntity<Post> findById(@PathVariable(value = "id") String id) {
         Post post = service.findById(id);
         return ResponseEntity.ok().body(post);
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody Post post){
+    public ResponseEntity<Void> insert(@RequestBody Post post) {
 
         Post obj = service.insert(post);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
         // created retorna o código 201 quando um novo recurso é gerado
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Post> update(@RequestBody Post post, @PathVariable(value = "id") String id) {
+        post.setId(id);
+        post = service.update(post);
+        return ResponseEntity.ok().body(post);
     }
 
 }

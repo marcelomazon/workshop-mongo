@@ -43,7 +43,7 @@ public class PostService {
 
     public Post update(Post post){
         Optional<Post> newPost = repository.findById(post.getId());
-        updateData(newPost,post);
+        updateData(newPost, post);
         return repository.save(newPost.get());
     }
 
@@ -51,10 +51,7 @@ public class PostService {
         newPost.get().setTitle(post.getTitle());
         newPost.get().setBody(post.getBody());
         newPost.get().setAuthor(post.getAuthor());
-        newPost.get().setDate(new Date());
+        newPost.get().setDate(post.getDate());
     }
 
-    public User fromDto(UserDto userDto) {
-        return new User(userDto.getId(), userDto.getName(), userDto.getEmail());
-    }
 }
