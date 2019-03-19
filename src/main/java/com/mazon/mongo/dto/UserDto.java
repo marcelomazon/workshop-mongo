@@ -5,7 +5,6 @@ import com.mazon.mongo.domain.User;
 import java.io.Serializable;
 
 public class UserDto implements Serializable {
-
     private static final Long serialVersionUID = 1L;
 
     private String id;

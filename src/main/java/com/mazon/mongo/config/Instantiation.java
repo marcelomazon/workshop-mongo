@@ -2,6 +2,7 @@ package com.mazon.mongo.config;
 
 import com.mazon.mongo.domain.Post;
 import com.mazon.mongo.domain.User;
+import com.mazon.mongo.dto.AuthorDto;
 import com.mazon.mongo.repository.PostRepository;
 import com.mazon.mongo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,11 @@ public class Instantiation implements CommandLineRunner {
         User alex = new User(null, "Alex Green", "alex@gmail.com");
         User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
-        Post post1 = new Post(null, sdf.parse("18/03/2019"), "Partiu viagem","Vou viajar para SP - Abraço!", maria);
-        Post post2 = new Post(null, sdf.parse("19/03/2019"), "Bom dia", "Esse spring é do carvalho", maria);
-
         userRepository.saveAll(Arrays.asList(maria, alex, bob));
+
+        Post post1 = new Post(null, sdf.parse("18/03/2019"), "Partiu viagem","Vou viajar para SP - Abraço!", new AuthorDto(maria));
+        Post post2 = new Post(null, sdf.parse("19/03/2019"), "Bom dia", "Esse spring é do carvalho", new AuthorDto(maria));
+
         postRepository.saveAll(Arrays.asList(post1, post2));
     }
 }
