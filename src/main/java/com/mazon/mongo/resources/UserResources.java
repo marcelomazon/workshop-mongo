@@ -1,5 +1,6 @@
 package com.mazon.mongo.resources;
 
+import com.mazon.mongo.domain.Post;
 import com.mazon.mongo.domain.User;
 import com.mazon.mongo.dto.UserDto;
 import com.mazon.mongo.services.UserService;
@@ -33,6 +34,12 @@ public class UserResources {
     public ResponseEntity<UserDto> findById(@PathVariable(value = "id") String id){
         User user = service.findById(id);
         return ResponseEntity.ok().body(new UserDto(user));
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<Post>> findPosts(@PathVariable(value = "id") String id){
+        User user = service.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
     }
 
     @PostMapping
