@@ -3,6 +3,7 @@ package com.mazon.mongo.resources;
 import com.mazon.mongo.domain.Post;
 import com.mazon.mongo.domain.User;
 import com.mazon.mongo.dto.UserDto;
+import com.mazon.mongo.resources.util.URL;
 import com.mazon.mongo.services.PostService;
 import com.mazon.mongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,4 +57,11 @@ public class PostResources {
         return ResponseEntity.ok().body(post);
     }
 
+    @GetMapping("/titlesearch")
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text) {
+        text = URL.decodeParam(text);
+        System.out.println(text);
+        List<Post> list = service.findByTitle(text);
+        return ResponseEntity.ok().body(list);
+    }
 }
