@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Document(collection = "post")
 public class Post implements Serializable {
@@ -18,6 +19,8 @@ public class Post implements Serializable {
     private String title;
     private String body;
     private AuthorDto author;
+
+
     private List<CommentDto> comments = new ArrayList<>();
 
     public Post(){}
@@ -85,7 +88,7 @@ public class Post implements Serializable {
 
         Post post = (Post) o;
 
-        return id != null ? id.equals(post.id) : post.id == null;
+        return Objects.equals(id, post.id);
     }
 
     @Override

@@ -1,19 +1,17 @@
 package com.mazon.mongo.resources;
 
 import com.mazon.mongo.domain.Post;
-import com.mazon.mongo.domain.User;
-import com.mazon.mongo.dto.UserDto;
 import com.mazon.mongo.resources.util.URL;
 import com.mazon.mongo.services.PostService;
-import com.mazon.mongo.services.UserService;
+import javafx.beans.binding.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/posts")
@@ -62,6 +60,42 @@ public class PostResources {
         text = URL.decodeParam(text);
         System.out.println(text);
         List<Post> list = service.findByTitle(text);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/bodysearch")
+    public ResponseEntity<List<Post>> findByBoody(@RequestParam(value = "body", defaultValue = "") String body) {
+        body = URL.decodeParam(body);
+        System.out.println(body);
+        List<Post> list = service.findByBody(body);
+        return ResponseEntity.ok().body(list);
+    }
+
+    /**
+     * Returns an Image object that can then be painted on the screen.
+     * The url argument must specify an absolute {@link URL}. The name
+     * argument is a specifier that is relative to the url argument.
+     * <p>
+     * This method always returns immediately, whether or not the
+     * image exists. When this applet attempts to draw the image on
+     * the screen, the data will be loaded. The graphics primitives
+     * that draw the image will incrementally paint on the screen.
+     *
+     * @param url  an absolute URL giving the base location of the image
+     * @param name the location of the image, relative to the url argument
+     * @return the image at the specified URL
+     * @see Image
+     */
+    @GetMapping("/consulta")
+    public ResponseEntity<List<Post>> consultaCompleta(
+            @RequestParam(value = "text", defaultValue = "") String text,
+            @RequestParam(value = "minDate", defaultValue = "") String minDate,
+            @RequestParam(value = "maxDate", defaultValue = "") String maxDate) {
+        text = URL.decodeParam(text);
+        Date min = URL.converDate(minDate, new Date(0L));
+        Date max = URL.converDate(maxDate, new Date());
+
+        List<Post> list = service.consultaCompleta(text, min, max);
         return ResponseEntity.ok().body(list);
     }
 }

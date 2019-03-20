@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +17,11 @@ public class PostService {
     @Autowired
     PostRepository repository;
 
-    public List<Post> findAll(){
+    public List<Post> findAll() {
         return repository.findAll(Sort.by("date").descending());
     }
 
-    public Post findById(String id){
+    public Post findById(String id) {
         return repository
                 .findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
@@ -30,12 +31,12 @@ public class PostService {
         return repository.insert(post);
     }
 
-    public void delete(String id){
+    public void delete(String id) {
         findById(id);
         repository.deleteById(id);
     }
 
-    public Post update(Post post){
+    public Post update(Post post) {
         Optional<Post> newPost = repository.findById(post.getId());
         updateData(newPost, post);
         return repository.save(newPost.get());
@@ -48,8 +49,17 @@ public class PostService {
         newPost.get().setDate(post.getDate());
     }
 
-    public List<Post> findByTitle(String text){
+    public List<Post> findByTitle(String text) {
         return repository.findByTitleContainingIgnoreCase(text);
+    }
+
+    public List<Post> findByBody(String text) {
+        return repository.findByBody(text);
+    }
+
+    public List<Post> consultaCompleta(String text, Date minDate, Date maxDate) {
+        //maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
+        return repository.consultaCompleta(text, minDate, maxDate);
     }
 
 }
