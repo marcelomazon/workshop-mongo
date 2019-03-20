@@ -1,10 +1,13 @@
 package com.mazon.mongo.domain;
 
 import com.mazon.mongo.dto.AuthorDto;
+import com.mazon.mongo.dto.CommentDto;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "post")
 public class Post implements Serializable {
@@ -15,6 +18,7 @@ public class Post implements Serializable {
     private String title;
     private String body;
     private AuthorDto author;
+    private List<CommentDto> comments = new ArrayList<>();
 
     public Post(){}
 
@@ -58,6 +62,22 @@ public class Post implements Serializable {
         this.body = body;
     }
 
+    public AuthorDto getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AuthorDto author) {
+        this.author = author;
+    }
+
+    public List<CommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,11 +93,4 @@ public class Post implements Serializable {
         return id != null ? id.hashCode() : 0;
     }
 
-    public AuthorDto getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(AuthorDto author) {
-        this.author = author;
-    }
 }
