@@ -72,19 +72,14 @@ public class PostResources {
     }
 
     /**
-     * Returns an Image object that can then be painted on the screen.
-     * The url argument must specify an absolute {@link URL}. The name
-     * argument is a specifier that is relative to the url argument.
-     * <p>
-     * This method always returns immediately, whether or not the
-     * image exists. When this applet attempts to draw the image on
-     * the screen, the data will be loaded. The graphics primitives
-     * that draw the image will incrementally paint on the screen.
+     * Faz uma busca em nos campos text e body do post e comentarios
+     * considerando um intervalo de datas
+     * Se não informar as datas, busca todos os posts até a data atual
      *
-     * @param url  an absolute URL giving the base location of the image
-     * @param name the location of the image, relative to the url argument
-     * @return the image at the specified URL
-     * @see Image
+     * @param text  texto para busca
+     * @param minDate data inicial para filtro
+     * @param maxDate data final para filtro
+     * @return lista de Posts
      */
     @GetMapping("/consulta")
     public ResponseEntity<List<Post>> consultaCompleta(
