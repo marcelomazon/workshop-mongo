@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository repository; // mecanismo de injeção automática do spring
+    private UserRepository repository;
 
     public List<User> findAll() {
         return repository.findAll(Sort.by("name"));
