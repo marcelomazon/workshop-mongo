@@ -31,6 +31,7 @@ public class PostService {
         return repository.insert(post);
     }
 
+    // deleta o registro do banco de dados
     public void delete(String id) {
         findById(id);
         repository.deleteById(id);
