@@ -72,7 +72,7 @@ public class PostResources {
     }
 
     /**
-     * Faz uma busca em nos campos text e body do post e comentarios
+     * Faz uma busca nos campos text e body do post e comentarios
      * considerando um intervalo de datas
      * Se não informar as datas, busca todos os posts até a data atual
      *
