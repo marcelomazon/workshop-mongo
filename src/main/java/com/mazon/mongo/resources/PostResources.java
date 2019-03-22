@@ -3,9 +3,7 @@ package com.mazon.mongo.resources;
 import com.mazon.mongo.domain.Post;
 import com.mazon.mongo.resources.util.URL;
 import com.mazon.mongo.services.PostService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/posts")
-@Api(value = "Postagens") // para documentação do swagger
+@Api(tags = "Postagens",description = "Postagens do blog", value = "Postagens") // para documentação do swagger
 public class PostResources {
 
     @Autowired
@@ -40,7 +38,10 @@ public class PostResources {
     }
 
     @PostMapping
-    @ApiOperation(value = "Inserir nova postagem")
+    @ApiOperation(value = "Inserir nova postagem", notes = "Os posts são conteúdos publicados no blog (postagens), " +
+            "em ordem cronológica. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a ante vehicula, " +
+            "vehicula tortor et, ultrices nibh. Etiam blandit felis eu lectus tempor, vel congue diam pretium. " +
+            "Aenean ultrices est eget mi rutrum porta")
     public ResponseEntity<Void> insert(@RequestBody Post post) {
 
         Post obj = service.insert(post);
@@ -51,6 +52,9 @@ public class PostResources {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Excluir uma postagem")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Não é possível excluir uma postagem que possui comentário"),
+            @ApiResponse(code = 404, message = "Id da postagem não encontrado") })
     public ResponseEntity<Void> delete(
             @ApiParam(value = "Id da postagem para exclusão", required = true) @PathVariable(value = "id") String id) {
         service.delete(id);
